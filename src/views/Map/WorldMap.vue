@@ -1,0 +1,154 @@
+<template>
+  <div class="map">
+    <div class="title"><b>世界疫情地图</b></div>
+    <!-- 地图容器 echarts要求定义宽高 -->
+    <div ref="chart" style="width: 100%; height: 7rem"></div>
+  </div>
+</template>
+
+<script>
+import echarts from 'echarts'
+import { ref } from '@vue/reactivity'
+import { onMounted } from '@vue/runtime-core'
+
+import name from '@/utils/country.js'
+import { useStore } from 'vuex'
+export default {
+  name: 'WorldMap',
+  setup() {
+    const store = useStore()
+    const data = store.state.worldData
+    const chart = ref(null)
+    const init = () => {
+      if (chart.value) {
+        //获取地图容器
+        const myChart = echarts.init(chart.value)
+        const option = {
+          tooltip: {
+            //悬浮弹框
+            triggerOn: 'click', //提示框触发的条件
+            enterable: true, //鼠标是否可进入提示框浮层中，默认为false
+            formatter(item) {
+              //item=下面serves里面的data里面的每一项 //[{} ] data={} a b c d
+              return (
+                '<a href="#/citys/' +
+                item.name +
+                '" style="color:#fff">国家：' +
+                item.name +
+                '--详情</a>'
+              )
+            }
+          },
+          visualMap: [
+            {
+              //映射高亮颜色
+              orient: 'horizontal', //水平的
+              type: 'piecewise', //离散
+              bottom: 0,
+              textGap: 4,
+              itemGap: 4,
+              itemWidth: 10,
+              itemHeight: 10,
+              padding: 2,
+              textStyle: {
+                fontSize: 9
+              },
+              pieces: [
+                // 配置颜色区间
+                {
+                  min: 0,
+                  max: 0,
+                  color: '#FFFFFF'
+                },
+                {
+                  min: 1,
+                  max: 9,
+                  color: '#FAEBD2'
+                },
+                {
+                  min: 10,
+                  max: 99,
+                  color: '#E9A188'
+                },
+                {
+                  min: 100,
+                  max: 499,
+                  color: '#D56355'
+                },
+                {
+                  min: 500,
+                  max: 999,
+                  color: '#BB3937'
+                },
+                {
+                  min: 1000,
+                  max: 10000,
+                  color: '#772526'
+                },
+                {
+                  min: 10000,
+                  color: '#480F10'
+                }
+              ]
+            }
+          ],
+          series: [
+            {
+              name: '国',
+              type: 'map', //地图  bar  line  map
+              map: 'world', //中国地图 需要引入地图china.js
+              nameMap: name,
+              roam: false,
+              zoom: 1.2,
+              aspectScale: 0.75,
+              top: 50,
+              layoutCenter: ['5%', '5%'],
+              label: {
+                normal: {
+                  show: false,
+                  textStyle: {
+                    fontSize: 8
+                  }
+                }
+              },
+              itemStyle: {
+                normal: {
+                  areaColor: 'rgba(0,255,236,0)',
+                  borderColor: 'rgba(0,0,0,0.2)'
+                },
+                emphasis: {
+                  // 选中的区域颜色及阴影效果等
+                  areaColor: 'rgba(255,180,0,0.8)',
+                  shadowOffsetX: 0,
+                  shadowOffsetY: 0,
+                  shadowBlur: 20,
+                  borderWidth: 0
+                }
+              },
+              data: data
+            }
+          ]
+        }
+        myChart.setOption(option)
+      }
+    }
+    onMounted(() => {
+      init()
+    })
+    return {
+      chart
+    }
+  }
+}
+</script>
+
+<style scoped lang="less">
+.map {
+  padding: 0.2rem;
+  .title {
+    border-left: 4px solid rgb(21, 21, 185);
+    padding-left: 0.2rem;
+    line-height: 0.4rem;
+  }
+}
+</style>
