@@ -13,12 +13,16 @@
       </router-link>
     </div>
     <div>
-      <img src="@/assets/images/3.png" alt="" />
-      <div>防疫物资</div>
+      <router-link to="/wuzi">
+        <img src="@/assets/images/3.png" alt="" />
+        <div>防疫物资</div>
+      </router-link>
     </div>
     <div>
-      <img src="@/assets/images/4.png" alt="" />
-      <div>出行政策</div>
+      <router-link to="/travel">
+        <img src="@/assets/images/4.png" alt="" />
+        <div>出行政策</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -35,6 +39,7 @@ export default {
   bottom: 0;
   background-color: rgb(52, 67, 255);
   padding-bottom: 0.1rem;
+  z-index: 2;
   div {
     text-align: center;
     font-size: 0.25rem;
