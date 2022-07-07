@@ -17,5 +17,6 @@ export default {
   color: #fff;
   font-size: 0.25rem;
   border-radius: 00.2rem;
+  z-index: 2;
 }
 </style>
