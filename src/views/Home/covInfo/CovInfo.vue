@@ -3,10 +3,6 @@
     <!-- 最新 -->
     <div class="title">
       <b>最新消息</b>
-      <div>
-        <a href="javascript:;">查看更多</a>
-        <img src="@/assets/images/more.png" width="13" alt="" />
-      </div>
     </div>
     <div class="news">
       <div v-if="covData.summary">
@@ -19,7 +15,7 @@
         <img src="@/assets/images/hot.png" width="65" />
       </div>
       <div>
-        <a href="javascript:;">查看更多</a>
+        <router-link to="/select">查看更多</router-link>
         <img src="@/assets/images/more.png" width="13" alt="" />
       </div>
     </div>
@@ -28,7 +24,7 @@
       <ul v-if="covData.summary">
         <li v-for="item in news" :key="item.id">
           <img src="@/assets/images/hot-icon.png" width="35" alt="" />
-          <router-link to="/">{{ item.title }}</router-link>
+          <router-link to="">{{ item.title }}</router-link>
           <img src="@/assets/images/right.png" width="23" alt="" />
         </li>
       </ul>
